@@ -1,7 +1,6 @@
 from pynput.mouse import Controller
 from pynput import keyboard
-from time import sleep, localtime, strftime, time, ctime
-from datetime import datetime
+from time import sleep, localtime, strftime, time
 from math import cos, floor, sin, radians
 
 class MouseMovement: 
