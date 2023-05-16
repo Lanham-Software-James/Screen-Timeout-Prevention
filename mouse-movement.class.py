@@ -56,7 +56,7 @@ class MouseMovement:
   # Function used to start the mouse movement
   def start(self):
     
-    print("\nAFK mode started. Please press left-control to return to work.")
+    print("\nAFK mode started. Please press left-shift to return to work.")
     self.start_clock()    
     self.maximize_window()
     self.find_center()
