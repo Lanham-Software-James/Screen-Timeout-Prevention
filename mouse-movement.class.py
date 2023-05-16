@@ -1,5 +1,5 @@
-from pynput.mouse import Controller
-from pynput import keyboard
+from pynput.mouse import Controller as Mouse_Controller
+from pynput.keyboard import Key, Controller as Keyboard_Controller, Listener
 from time import sleep, localtime, strftime, time
 from math import cos, floor, sin, radians
 
@@ -7,18 +7,25 @@ class MouseMovement:
   # Constructor
   def __init__(self, radius):
     self.run = True
-    self.mouse = Controller()
+    self.mouse = Mouse_Controller()
     self.radius = radius
 
   # Function used to process key releases
   def on_release(self, key):
-    if key == keyboard.Key.ctrl_l:
-        self.end_clock()
+    if key == Key.shift:
+        
         # Stop control loop
         self.run = False
-        
         # Stop listener
         return False
+    
+  def maximize_window(self):
+      self.keyboard = Keyboard_Controller()
+      with self.keyboard.pressed(Key.cmd):
+        with self.keyboard.pressed(Key.ctrl_l):
+          self.keyboard.press('f')
+          self.keyboard.release('f')
+      sleep(1)
     
   def start_clock(self):
     self.start_time =  time()
@@ -43,11 +50,12 @@ class MouseMovement:
   
   # Function used to start the mouse movement
   def start(self):
+    self.maximize_window()
     print("\nAFK mode started. Please press left-control to return to work.")
     self.start_clock()    
 
     # Listening for key release events
-    listener = keyboard.Listener(
+    listener = Listener(
       
       on_release=self.on_release)
     listener.start()
@@ -61,6 +69,8 @@ class MouseMovement:
           100 + self.radius * sin(angle_rad)
         )
         sleep(0.0025)
+    
+    self.end_clock()
 
 # Script
 mouse_move = MouseMovement(50)
