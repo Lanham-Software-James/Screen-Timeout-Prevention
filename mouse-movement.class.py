@@ -2,6 +2,7 @@ from pynput.mouse import Controller as Mouse_Controller
 from pynput.keyboard import Key, Controller as Keyboard_Controller, Listener
 from time import sleep, localtime, strftime, time
 from math import cos, floor, sin, radians
+from AppKit import NSScreen
 
 class MouseMovement: 
   # Constructor
@@ -47,12 +48,18 @@ class MouseMovement:
 
     print('Ended at {0}'.format( strftime( "%I:%M:%S %p", tmp_time )))
     print('Time away from keyboard {0} hrs {1} mins {2} secs\n'.format( hours, minutes, seconds ))
+
+  def find_center(self):
+    self.X = NSScreen.mainScreen().frame().size.width/2
+    self.Y = NSScreen.mainScreen().frame().size.height/2
   
   # Function used to start the mouse movement
   def start(self):
-    self.maximize_window()
+    
     print("\nAFK mode started. Please press left-control to return to work.")
     self.start_clock()    
+    self.maximize_window()
+    self.find_center()
 
     # Listening for key release events
     listener = Listener(
@@ -65,12 +72,13 @@ class MouseMovement:
       for angle_deg in range(0, 360):
         angle_rad = radians(angle_deg)
         self.mouse.position = (
-          100 + self.radius * cos(angle_rad),
-          100 + self.radius * sin(angle_rad)
+          self.X + self.radius * cos(angle_rad),
+          self.Y + self.radius * sin(angle_rad)
         )
         sleep(0.0025)
     
     self.end_clock()
+    self.maximize_window()
 
 # Script
 mouse_move = MouseMovement(50)
