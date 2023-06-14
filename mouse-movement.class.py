@@ -20,14 +20,6 @@ class MouseMovement:
         # Stop listener
         return False
     
-  def maximize_window(self):
-      self.keyboard = Keyboard_Controller()
-      with self.keyboard.pressed(Key.cmd):
-        with self.keyboard.pressed(Key.ctrl_l):
-          self.keyboard.press('f')
-          self.keyboard.release('f')
-      sleep(1)
-    
   def start_clock(self):
     self.start_time =  time()
     tmp_time = localtime( self.start_time )
@@ -58,7 +50,6 @@ class MouseMovement:
     
     print("\nAFK mode started. Please press left-shift to return to work.")
     self.start_clock()    
-    self.maximize_window()
     self.find_center()
 
     # Listening for key release events
@@ -78,7 +69,6 @@ class MouseMovement:
         sleep(0.0025)
     
     self.end_clock()
-    self.maximize_window()
 
 # Script
 mouse_move = MouseMovement(50)
